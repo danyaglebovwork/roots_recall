@@ -1,0 +1,6 @@
+<%= simple_form_for user, url: api_users_auth_path, method: :post do |f| %>
+  <%= f.input :email, placeholder: 'user@domain.com' %>
+  <%= f.input :password %>
+
+  <%= f.button :submit, "Авторизация" %>
+<% end %>

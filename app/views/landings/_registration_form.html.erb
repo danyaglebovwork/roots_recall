@@ -1,0 +1,11 @@
+<%= simple_form_for user, url: api_users_path, method: :post do |f| %>
+  <%= f.input :first_name, label: 'Your first name please', error: 'first name is mandatory, please specify one' %>
+  <%= f.input :last_name, label: 'Your last name please', error: 'last name is mandatory, please specify one' %>
+  <%= f.input :father_name, label: 'Your father name please', error: 'father name is mandatory, please specify one' %>
+  <%= f.input :email, placeholder: 'user@domain.com' %>
+
+  <%= f.input :password %>
+  <%= f.input :confirmation_password %>
+
+  <%= f.button :submit %>
+<% end %>
