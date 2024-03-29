@@ -104,6 +104,25 @@ class ApplicationHandler
     @controller.render renderer.render
   end
 
+  protected def authenticate!
+    access_denied!(message: "Нет доступа!") unless authenticated?
+  end
+
+  protected def authenticated?
+    current_session.present?
+  end
+
+  protected def access_denied!(message: nil)
+    raise Errors::AccessDenied, message || "Нет доступа!"
+  end
+
+  protected def current_session
+    @current_session ||= controller.session
+  end
+
+  protected def current_owner
+    @current_owner ||= User.find_by(id: current_session[:user_id])
+  end
 
   protected def params
     controller.params
@@ -111,5 +130,9 @@ class ApplicationHandler
 
   protected def headers
     controller.headers
+  end
+
+  protected def redirect_to(url, allow_other_host: false)
+    controller.redirect_to(url, allow_other_host: allow_other_host)
   end
 end
