@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/api/users", to: "api/users#index"
   get "/api/users/:user_id", to: "api/users#show"
   get "/users/:user_id", to: "users#show"
+  get "/users/:user_id/flashbacks", to: "flashbacks#index"
 
   post "/api/users", to: "api/users#create"
   post "/api/users/auth", to: "api/users#authorize"

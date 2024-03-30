@@ -11,5 +11,9 @@
   <label class="form-control"><%= @user.father_name%></label>
 
   <h2>Воспоминания</h2>
+  <%= @user.flashbacks do |flashback| %>
+    <label class="form-label"><%= flashback.title %></label>
+    <label class="form-control"><%= flashback.content %></label>
+  <% end %>
 </div>
 </div>
