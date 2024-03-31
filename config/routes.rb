@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   delete "/api/users/:user_id", to: "api/users#destroy"
   # Defines the root path route ("/")
   root "landings#show"
+  telegram_webhook TelegramController
 end
