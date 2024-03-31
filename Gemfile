@@ -46,6 +46,8 @@ gem "jwt"
 gem "sidekiq"
 gem "money-rails"
 gem "dry-validation", "~> 1.10"
+gem "telegram-bot"
+gem "telegram-bot-types"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
