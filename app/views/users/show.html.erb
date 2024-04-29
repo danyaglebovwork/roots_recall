@@ -11,9 +11,23 @@
   <label class="form-control"><%= @user.father_name%></label>
 
   <h2>Воспоминания</h2>
-  <%= @user.flashbacks do |flashback| %>
+  <% @user.flashbacks.each do |flashback| %>
     <label class="form-label"><%= flashback.title %></label>
-    <label class="form-control"><%= flashback.content %></label>
+    <audio controls class="w-100">
+      <source
+        src=<%= flashback.file.url %>
+        type="audio/mpeg"
+      />
+      <source
+        src=<%= flashback.file.url %>
+        type="audio/ogg"
+      />
+      <source
+        src=<%= flashback.file.url %> 
+        type="audio/wav"
+      />
+      Audio not supported
+    </audio>
   <% end %>
 </div>
 </div>

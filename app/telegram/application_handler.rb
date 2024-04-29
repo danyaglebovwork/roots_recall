@@ -5,9 +5,10 @@ module Telegram
     attr_reader :chat
 
     def initialize(controller)
+      byebug
       @controller = controller
-      @from = from.transform_keys(&:to_sym)
-      @chat = chat.transform_keys(&:to_sym)
+      @from = controller.from.transform_keys(&:to_sym)
+      @chat = controller.chat.transform_keys(&:to_sym)
     end
 
     def current_owner

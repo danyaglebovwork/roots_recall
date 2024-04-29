@@ -1,41 +1,50 @@
 class TelegramController < Telegram::Bot::UpdatesController
   around_action :with_locale
 
+  def start!
+    handler = Telegram::Handlers::Start.new(self)
+    handler.handle
+  end
+
   def message(message)
+    bot = Telegram::Client.new
+    if message.voice.present?
+      user = User.find_by(telegram_id: message.from.id)
+      file_info = bot.get_file(file_id: message.voice.file_id)
+
+      downloaded_file = bot.download_file(file_info.file_path)
+
+      Flashback.create!(
+        user_id: user.id,
+        title:  file_info.file_unique_id,
+        file: downloaded_file
+      )
+    end
+
     p message
   end
 
   def auth
   end
 
+  def callback_query(data)
+    handler = Telegram::Handlers::callback_query.new(self)
+    handler.handle!(data)
+  end
+
   def new_flashback!
-    kb = [
-        [{ text: '', callback_data: 'https://google.com' },
-        { text: 'Touch me', callback_data: 'touch' },
-        { text: 'Switch to inline', callback_data: 'some text' }]
+    keyboard  = [
+      [
+        { text: "да", callback_data: "add_new_flashback" },
+        { text: "нет", callback_data: "cancel" }
+      ]
     ]
 
     respond_with :message, text: "Вы хотите создать новое воспоминание?", reply_markup: {
-      keyboard: kb,
+      keyboard: keyboard,
       one_time_keyboard: true,
       resize_keyboard: true
     }
-  end
-
-  def start!(word = nil, *other_words)
-    user = User.find_by(id: from[:id])
-
-    if user.blank?
-      user = User.create!(
-        first_name: from[:first_name],
-        last_name: from[:last_name],
-        telegram_id: from[:id]
-      )
-    end
-
-    response = from ? "Hello #{from['username']}!" : 'Hi there!'
-
-    respond_with :message, text: response
   end
 
   private
